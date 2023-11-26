@@ -1,0 +1,15 @@
+@import "fontawesome-free/css/all.min.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer components{
+    .media{
+        @apply grid sm:grid-cols-1 lg:grid-cols-12
+    }
+    .input{
+        @apply h-9 rounded-md shadow-lg indent-6 text-indigo-800 font-bold placeholder:text-gray-800 bg-indigo-400 w-full outline-none ;
+    }
+    .btn{
+        @apply px-2 py-1 duration-1000 hover:filter shadow-lg shadow-indigo-900 bg-indigo-800 text-white font-bold rounded-md hover:shadow-2xl hover:bg-indigo-600;
+    }
+}
