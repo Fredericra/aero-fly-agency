@@ -6,6 +6,12 @@
             </Link>
         </el-menu-item>
         <div class="flex-grow" />
+        <el-sub-menu index="6">
+            <template #title> reservation </template>
+            <el-menu-item v-for="(value, index) in reservation" :key="index" :index="`6-${index + 1}`">
+                {{ value.value }}
+            </el-menu-item>
+        </el-sub-menu>
         <el-sub-menu index="1">
             <template #title> Agence </template>
             <el-menu-item v-for="(value, index) in agence" :key="index" :index="`1-${index + 1}`">
@@ -13,24 +19,24 @@
             </el-menu-item>
         </el-sub-menu>
         <el-sub-menu index="4">
-            <template #title> Voyage </template>
-            <el-menu-item v-for="(value, index) in agence" :key="index" :index="`1-${index + 1}`">
+            <template #title> Apparence </template>
+            <el-menu-item v-for="(value, index) in donne" :key="index" :index="`1-${index + 1}`">
                 {{ value.value }}
             </el-menu-item>
         </el-sub-menu>
         <el-sub-menu index="5">
-            <template #title> Sponsor </template>
-            <el-menu-item v-for="(value, index) in sponsor" :key="index" :index="`5-${index + 1}`">
+            <template #title> Inbox </template>
+            <el-menu-item v-for="(value, index) in inbox" :key="index" :index="`5-${index + 1}`">
                 {{ value.value }}
             </el-menu-item>
         </el-sub-menu>
         <el-menu-item index="2">A propos</el-menu-item>
         <el-sub-menu index="3">
             <template #title>
-                <div class="text-blue-400 font-bold">Rejoint nous</div>
+                <div class="text-blue-400 font-bold">Parametre</div>
             </template>
             <el-menu-item v-for="(value, index) in admin" :key="index" :index="`3-${index}`">
-                <Link :href="route(value.route)">
+                <Link :href="route(value.route,value.api)">
                 {{ value.value }}
                 </Link>
             </el-menu-item>
@@ -45,27 +51,49 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { usePage } from "@inertiajs/vue3";
+import { computed,ref,reactive } from "@vue/reactivity";
 import LogoVue from "../Logo/Logo.vue";
+
+
+const page = usePage();
+const user = computed(()=>{
+    return page.props.user;
+})
+const reservation = ref([
+    {value:"Billet d'avion",route:""},
+    {value:"Hotel",route:""},
+    {value:"Autre action",route:""},
+    
+])
 const agence = ref([
-    { value: "Madagasikara", route: "" },
-    { value: "France", route: "" },
-    { value: "Espagne", route: "" },
-    { value: "Chine", route: "" },
+    { value: "Ajouter", route: "" },
+    { value: "Parametre", route: "" },
+    { value: "Démande", route: "" },
+    { value: "Plus", route: "" },
 ]);
+const donne = ref([
+    {value:"Donne Page",route:''},
+    {value:"Head",route:''},
+    {value:"Image",route:''},
+    {value:"Footer",route:''},
+    {value:"Lien",route:''},
+])
 const admin = ref([
-    { value: "connexion", route: "page.connexion" },
-    { value: "inscrire", route: "page.inscrire" },
+    { value: "Sortie", route: "sortie",api:user },
+    { value: "parametre", route: "sortie",api:"" },
 ]);
 const param = ref([
-    { value: "Contribution", route: "" },
-    { value: "Reste avec nous", route: "" },
+    { value: "Collaboration", route: "" },
+    { value: "Autre sponsor", route: "" },
     { value: "Notre supposort", route: "" },
 ]);
-const sponsor = ref([
-    { value: "AIR MADAGASCAR", route: "" },
-    { value: "HOTEL TANA CENTER", route: "" },
-    { value: "HOTEL DE FRANCE", route: "" },
+const inbox = ref([
+    { value: "Email", route: "" },
+    { value: "Campagne", route: "" },
+    { value: "Supprime", route: "" },
+    { value: "Ajouter", route: "" },
+    { value: "Compte", route: "" },
 ])
 const activeIndex = ref("1");
 const handleSelect = (key: string, keyPath: string[]) => {

@@ -13,6 +13,6 @@ class Compte extends Model implements authorize
     use HasFactory;
     use Notifiable;
     use Authenticatable;
-    protected $fillable = ['email',"password",'admin'];
+    protected $fillable = ['email',"passport","password",'admin'];
 
 }

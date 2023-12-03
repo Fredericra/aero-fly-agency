@@ -60,11 +60,8 @@ return [
     */
 
     'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\User::class,
-        ],
-        'admin'=>[
+       
+        'users'=>[
             'driver'=>'eloquent',
             'model'=>App\Models\Admin\Compte::class,
         ]

@@ -20,6 +20,9 @@ class Visite
         {
             return $next($request);
         }
+        else{
+            return to_route('admin.home');
+        }
        
     }
 }

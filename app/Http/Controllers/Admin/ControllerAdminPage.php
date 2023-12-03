@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ClientController extends Controller
+class ControllerAdminPage extends Controller
 {
     public function index()
     {
-        return inertia('User/UserHome');
+        return inertia('Admin/Home');
     }
 }

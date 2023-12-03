@@ -1,22 +1,26 @@
 <?php
 
-use App\Http\Controllers\Admin\ClientController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\web\PageController;
 use App\Http\Middleware\Admin\AdminController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\ControllerAdminPage;
 
-
-Route::get('/',[PageController::class,'index'])->name('page.home');
-Route::match(['get', 'post'], '/inscrire',[PageController::class,'inscrire'])->name('page.inscrire');
-Route::match(['get', 'post'], '/connexion',[PageController::class,'connexion'])->name('page.connexion');
+Route::middleware(['visite'])->group(function () {
+    Route::get('/',[PageController::class,'index'])->name('page.home');
+    Route::match(['get', 'post'], '/inscrire',[PageController::class,'inscrire'])->name('page.inscrire');
+    Route::match(['get', 'post'], '/connexion',[PageController::class,'connexion'])->name('page.connexion');
+    
+});
 
 Route::middleware('authorize')
 ->prefix('dashbord')
 ->group(function () {
+    Route::get("/sortie/{user}",[PageController::class,"sortie"])->name('sortie');
+    Route::get('/bienvenue',[ControllerAdminPage::class,'index'])->name('admin.home');
     Route::middleware('admin')
     ->prefix('admin')
     ->group(function(){
-        Route::get('/bienvenue',[AdminController::class,'index'])->name('admin.home');
         Route::prefix('marketing')
         ->group(function(){
             
@@ -25,7 +29,6 @@ Route::middleware('authorize')
     Route::middleware('client')
     ->prefix('client')
     ->group(function(){
-        Route::get('/bienvenue',[ClientController::class,'index'])->name('client.home');
 
     });
 });

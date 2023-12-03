@@ -27,10 +27,10 @@
         <el-menu-item index="2">A propos</el-menu-item>
         <el-sub-menu index="3">
             <template #title>
-                <div class="text-blue-400 font-bold">Rejoint nous</div>
+                <div class="text-blue-400 font-bold">Parametre</div>
             </template>
             <el-menu-item v-for="(value, index) in admin" :key="index" :index="`3-${index}`">
-                <Link :href="route(value.route)">
+                <Link :href="route(value.route,value.api)">
                 {{ value.value }}
                 </Link>
             </el-menu-item>
@@ -45,8 +45,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { usePage } from "@inertiajs/vue3";
+import { computed,ref,reactive } from "@vue/reactivity";
 import LogoVue from "../Logo/Logo.vue";
+
+
+const page = usePage();
+const user = computed(()=>{
+    return page.props.user;
+})
 const agence = ref([
     { value: "Madagasikara", route: "" },
     { value: "France", route: "" },
@@ -54,8 +61,8 @@ const agence = ref([
     { value: "Chine", route: "" },
 ]);
 const admin = ref([
-    { value: "connexion", route: "page.connexion" },
-    { value: "inscrire", route: "page.inscrire" },
+    { value: "Sortie", route: "sortie",api:user },
+    { value: "parametre", route: "sortie",api:"" },
 ]);
 const param = ref([
     { value: "Contribution", route: "" },

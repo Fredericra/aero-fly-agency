@@ -2,9 +2,10 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\Web\Visite;
 use App\Http\Middleware\Admin\Admin;
-use App\Http\Middleware\Admin\Authorize;
 use App\Http\Middleware\Admin\Client;
+use App\Http\Middleware\Admin\Authorize;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -61,6 +62,7 @@ class Kernel extends HttpKernel
         'authorize'=>Authorize::class,
         'client'=>Client::class,
         'admin'=>Admin::class,
+        'visite'=>Visite::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
