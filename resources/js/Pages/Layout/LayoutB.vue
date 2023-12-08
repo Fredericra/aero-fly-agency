@@ -1,13 +1,13 @@
 <template>
   <Head :title="`aoero--||--${path}`"/>
   <div class="relative slot">
-    <div class=" sticky top-0 bg-transparent">
-        <head-web></head-web>
-    </div>
     <div class="">
+      <head-web></head-web>
+    </div>
+    <div id="corp">
         <slot></slot>
     </div>
-    <div class="">
+    <div id="footer">
         <foot-web></foot-web>
     </div>
 
@@ -16,14 +16,36 @@
   
   <script lang="ts" setup>
   import { Head } from '@inertiajs/vue3';
-  import HeadWeb from '../Page/HeadWeb.vue';
   import FootWeb from '../Page/FooterWeb.vue';
-  import { ref } from 'vue'
+  import HeadWeb from '../head/headweb.vue';
+  import MenuHome from "../Page/MenuHome.vue"
+  import { ref,onMounted,onUnmounted } from 'vue'
+
+
   const props = defineProps(['path'])
   const activeIndex = ref('1')
   const handleSelect = (key: string, keyPath: string[]) => {
     console.log(key, keyPath)
   }
+  function commence()
+  {
+    const corp = document.getElementById('corp');
+    if(corp?.clientHeight === 0 && corp.clientHeight < window.innerHeight)
+    {
+      corp?.classList.add('h-screen');
+    }
+    else{
+      corp?.classList.remove('h-screen');
+      corp?.classList.add('h-auto')
+    }
+  }
+  onUnmounted(() => {
+    window.addEventListener('click',()=>commence()) 
+  })
+  onMounted(() => {
+    window.addEventListener('click',()=>commence()) 
+
+  })
   </script>
   
   <style>

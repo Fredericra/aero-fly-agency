@@ -29,11 +29,13 @@
             <template #title>
                 <div class="text-blue-400 font-bold">Parametre</div>
             </template>
-            <el-menu-item v-for="(value, index) in admin" :key="index" :index="`3-${index}`">
-                <Link :href="route(value.route,value.api)">
-                {{ value.value }}
+            <div class="" v-for="(value, index) in admin" :key="index">
+                <Link :href="route(value.route, ShareData.user)">
+                <el-menu-item :index="`3-${index}`">
+                    {{ value.value }}
+                </el-menu-item>
                 </Link>
-            </el-menu-item>
+            </div>
             <el-sub-menu index="2-4">
                 <template #title>Plus</template>
                 <el-menu-item v-for="(value, index) in param" :key="index" :index="`2-4-${index}`">
@@ -49,8 +51,10 @@ import { usePage } from "@inertiajs/vue3";
 import { computed,ref,reactive } from "@vue/reactivity";
 import LogoVue from "../Logo/Logo.vue";
 
-
 const page = usePage();
+const ShareData = computed(()=>{
+    return page.props;
+})
 const user = computed(()=>{
     return page.props.user;
 })
@@ -61,8 +65,9 @@ const agence = ref([
     { value: "Chine", route: "" },
 ]);
 const admin = ref([
-    { value: "Sortie", route: "sortie",api:user },
-    { value: "parametre", route: "sortie",api:"" },
+    { value: "Sortie", route: "admin.sortie", api: ShareData.user ? ShareData : null },
+    { value: "parametre", route: "admin.sortie", api: ShareData.user ? ShareData : null },
+    { value: "Admin", route: "admin.sortie", api: ShareData.user ? ShareData : null },
 ]);
 const param = ref([
     { value: "Contribution", route: "" },
@@ -76,7 +81,6 @@ const sponsor = ref([
 ])
 const activeIndex = ref("1");
 const handleSelect = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath);
 };
 </script>
 

@@ -1,5 +1,12 @@
 <script setup>
-import { ref } from "vue";
+import { ref,computed } from "vue";
+import { usePage } from "@inertiajs/vue3"
+
+
+const page = usePage();
+const images = computed(()=>{
+    return page.props.carouselle;
+})
 const servie = ref([
     {
         title: "Résevation en ligne",
@@ -43,7 +50,12 @@ const servie = ref([
             </div>
         </div>
         <div class="media">
-            <div class="col-span-5"></div>
+            <div class="col-span-5">
+            <div class="flex justify-center items-center opacity-40">
+                <img :src="images[2].image" alt="" class=" backdrop-brightness-75 rounded-full">
+            
+            </div>
+            </div>
             <div class="col-span-7">
                 <div class="py-4 px-5 space-y-6">
                     <div class="shadow-lg rounded-md hover:shadow-indigo-950 duration-1000" v-for="(value, index) in servie"

@@ -14,9 +14,30 @@ class Visite
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
+    protected $admin = [];
+    public function __contruct($admin)
+    {
+    $this->admim = $admin;
+    }
+    public function userAdmin($email){
+        $this->admin = collect(
+            [
+                "frederic@gmail.com",
+                "admin@gmail.com",
+                "agenceaerien@gmail.com"
+            ]
+        );
+        if($this->admin->contains($email))
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     public function handle(Request $request, Closure $next): Response
     {
-        if(!Auth::check())
+        if(!Auth::check() || !$this->userAdmin(Auth::user()->email))
         {
             return $next($request);
         }

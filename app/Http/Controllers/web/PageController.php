@@ -95,9 +95,21 @@ class PageController extends Controller
            
         }
     }
-    public function sortie($user)
-    {
-        Auth::logout($user);
-        return to_route('page.home');
-    }
+   public function agence($agence)
+   {
+    return inertia('Page/Agence',['agence'=>$agence]);
+   }
+   public function reservation($pays,$air)
+   {
+       
+    return inertia('Page/Reservation',[
+        "pays"=>$pays,
+        "airport"=>$air
+    ]);
+   }
+   public function dash()
+   {
+    return to_route('admin.home');
+   }
+   
 }

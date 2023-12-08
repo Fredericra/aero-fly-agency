@@ -20,8 +20,10 @@
         </el-sub-menu>
         <el-sub-menu index="4">
             <template #title> Apparence </template>
-            <el-menu-item v-for="(value, index) in donne" :key="index" :index="`1-${index + 1}`">
+            <el-menu-item v-for="(value, index) in donne" :key="index" :index="`2-2-${index + 1}`">
+                <Link :href="route(value.route)">
                 {{ value.value }}
+                </Link>
             </el-menu-item>
         </el-sub-menu>
         <el-sub-menu index="5">
@@ -35,11 +37,13 @@
             <template #title>
                 <div class="text-blue-400 font-bold">Parametre</div>
             </template>
-            <el-menu-item v-for="(value, index) in admin" :key="index" :index="`3-${index}`">
-                <Link :href="route(value.route,value.api)">
-                {{ value.value }}
+            <div class="" v-for="(value, index) in admin" :key="index">
+                <Link :href="route(value.route, ShareData.user)">
+                <el-menu-item :index="`3-${index}`">
+                    {{ value.value }}
+                </el-menu-item>
                 </Link>
-            </el-menu-item>
+            </div>
             <el-sub-menu index="2-4">
                 <template #title>Plus</template>
                 <el-menu-item v-for="(value, index) in param" :key="index" :index="`2-4-${index}`">
@@ -52,19 +56,19 @@
 
 <script lang="ts" setup>
 import { usePage } from "@inertiajs/vue3";
-import { computed,ref,reactive } from "@vue/reactivity";
+import { computed, ref, reactive } from "@vue/reactivity";
 import LogoVue from "../Logo/Logo.vue";
 
 
 const page = usePage();
-const user = computed(()=>{
-    return page.props.user;
+const ShareData = computed(() => {
+    return page.props;
 })
 const reservation = ref([
-    {value:"Billet d'avion",route:""},
-    {value:"Hotel",route:""},
-    {value:"Autre action",route:""},
-    
+    { value: "Billet d'avion", route: "" },
+    { value: "Hotel", route: "" },
+    { value: "Autre action", route: "" },
+
 ])
 const agence = ref([
     { value: "Ajouter", route: "" },
@@ -73,15 +77,13 @@ const agence = ref([
     { value: "Plus", route: "" },
 ]);
 const donne = ref([
-    {value:"Donne Page",route:''},
-    {value:"Head",route:''},
-    {value:"Image",route:''},
-    {value:"Footer",route:''},
-    {value:"Lien",route:''},
+    { value: "Page", route: 'admin.page' },
+    { value: "image", route: 'admin.image' },
 ])
 const admin = ref([
-    { value: "Sortie", route: "sortie",api:user },
-    { value: "parametre", route: "sortie",api:"" },
+    { value: "Sortie", route: "admin.sortie", api: ShareData.user ? ShareData : null },
+    { value: "parametre", route: "admin.sortie", api: ShareData.user ? ShareData : null },
+    { value: "Admin", route: "admin.sortie", api: ShareData.user ? ShareData : null },
 ]);
 const param = ref([
     { value: "Collaboration", route: "" },
@@ -97,14 +99,15 @@ const inbox = ref([
 ])
 const activeIndex = ref("1");
 const handleSelect = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath);
+    console.log("hello");
 };
 </script>
 
 <style>
-.el-menu-demo{
+.el-menu-demo {
     background: transparent;
 }
+
 .flex-grow {
     flex-grow: 1;
 }
