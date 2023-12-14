@@ -14,30 +14,17 @@ const images = computed(() => {
 </script>
 <template>
 <div>
-    <el-carousel :interval="1000" v-if="images!=='null'">
+    <el-carousel :interval="1000" v-if="images.length>0">
         <el-carousel-item v-for="(value,index) in images" :key="index">
             <div class="">
                 <div class="media">
-                    <div class="col-span-8">
-                        <img :src="value.image" alt="" class="h-full w-full object-top">
-                    </div>
-                    <div class="col-span-4">
-                        <div class="text-center">
-                          <p class="text-white font-bold">
-                          {{ value.text }}
-                          </p>
+                    <div class="col-span-12 px-2 h-full relative">
+                        <img :src="value.image" alt="" class="h-[400px] w-full object-cover">
+                        <div class="absolute bottom-1/2 left-3/4">
+                            <div class="text-center">
+                                <p class="text-[20px] titre">{{ value.text }} </p>
+                            </div>
                         </div>
-                        <div class="text-left" v-if="value.description">
-                          <p class="text-indigo-950 font-bold text-sm indent-5">
-                          {{ value.description }}
-                          </p>
-                        </div>
-                      <div class=" translate-y-[50px] px-20">
-                        <div class="border-4 border-white rounded-md h-full">
-                        <img :src="value.image" alt="" class=" w-full">
-                          
-                        </div>
-                      </div>
                     </div>
                 </div>
             </div>
@@ -46,7 +33,7 @@ const images = computed(() => {
     </el-carousel>
     <el-carousel :interval="1000" v-else>
         <el-carousel-item v-for="i in 3">
-            <h3 class="small justify-center" text="2xl">{{ i }} Commande dans admin </h3>
+            <h3 class="small justify-center" text="2xl">{{ i }} Commande dans admin | compte admin@gmail.com | agenceaerien@gmail.com </h3>
         </el-carousel-item>
     </el-carousel>
     <div class="py-4 px-4 relative">
@@ -75,7 +62,7 @@ export default {
     text-align: center;
 }
 
-.el-carousel__item:nth-child(2n) {
+.el-carousel__item:nth-child(2n+2) {
     background-color: #99a9bf;
 }
 

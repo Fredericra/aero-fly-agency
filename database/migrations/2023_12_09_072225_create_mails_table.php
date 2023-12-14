@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comptes', function (Blueprint $table) {
+        Schema::create('mails', function (Blueprint $table) {
             $table->id();
+            $table->string('pseudo');
             $table->string('email')->unique();
             $table->string('password');
-            $table->boolean('admin')->default(0);
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comptes');
+        Schema::dropIfExists('mails');
     }
 };

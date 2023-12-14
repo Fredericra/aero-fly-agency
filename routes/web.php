@@ -8,12 +8,13 @@ use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ControllerAdminPage;
 
 Route::middleware(['visite'])->group(function () {
-    Route::get('/',[PageController::class,'index'])->name('page.home');
+    Route::match(['get','post'],'/',[PageController::class,'index'])->name('page.home');
     Route::match(['get', 'post'], '/inscrire',[PageController::class,'inscrire'])->name('page.inscrire');
     Route::match(['get', 'post'], '/connexion',[PageController::class,'connexion'])->name('page.connexion');
     Route::get('/agence/{pays}',[PageController::class,'agence'])->name('page.agence');
     Route::get('/reservation/{pays}/{airport}',[PageController::class,"reservation"])->name('page.reservation');
     Route::get('/dash',[PageController::class,"dash"])->name("dash");
+    Route::post('/email',[PageController::class,"email"])->name('page.email');
     
 });
 
@@ -25,16 +26,72 @@ Route::middleware('authorize')
     Route::middleware('admin')
     ->prefix('admin')
     ->group(function(){
-        Route::prefix('marketing')
+        Route::prefix('marketing')      
         ->group(function(){
             Route::get('/page',[ControllerAdminPage::class,'page'])->name('admin.page');
-            Route::get('/image',[ControllerAdminPage::class,'image'])->name('admin.image');
+            Route::match(['get','post'],'/image',[ControllerAdminPage::class,'image'])->name('admin.image');
             Route::post('/carouselle',[ControllerAdminPage::class,'carouselle'])->name('admin.image.carouselle');
+        });
+
+
+        Route::prefix('parametre')
+        ->group(function(){
+            Route::match(["get","post"],'/admin',[ControllerAdminPage::class,'admin'])->name('parametre.admin');
+            Route::match(["get","post"],'/profil',[ControllerAdminPage::class,'profil'])->name('parametre.profil');
+        });
+
+
+        Route::prefix('dash')
+        ->group(function(){ 
+            Route::get("billet",[ControllerAdminPage::class,'billet'])->name('dash.billet');
+            Route::get("Holte",[ControllerAdminPage::class,'hotel'])->name('dash.hotel');
+            Route::get("client",[ControllerAdminPage::class,'client'])->name('dash.client');
+            Route::get("otherAction",[ControllerAdminPage::class,'autre'])->name('dash.other');
+        });
+
+        Route::prefix('agence')
+        ->group(function(){
+            Route::get('/ajouter',[ControllerAdminPage::class,'ajouter'])->name('agence.ajouter');
+            Route::get('/liste',[ControllerAdminPage::class,'liste'])->name('agence.liste');
+            Route::get('/Demande',[ControllerAdminPage::class,'Demande'])->name('agence.demande');
+            Route::get('/plus',[ControllerAdminPage::class,'plus'])->name('agence.plus');
+        });
+
+    
+        Route::prefix('new-letter')
+        ->group(function(){
+            Route::get('/email',[ControllerAdminPage::class,'email'])->name('mail.mail');
+            Route::get('/campagne',[ControllerAdminPage::class,'campagne'])->name('mail.campagne');
+            Route::get('/setting',[ControllerAdminPage::class,'setting'])->name('mail.setting');
+            Route::get('/Ajoute',[ControllerAdminPage::class,'ajoute'])->name('mail.ajoute');
+            Route::get('/compte',[ControllerAdminPage::class,'compte'])->name('mail.compte');
+        });
+
+
+        Route::prefix('handle')
+        ->group(function(){
+            Route::get('/client',[ControllerAdminPage::class,'client'])->name('admin.client');
         });
     });
     Route::middleware('client')
     ->prefix('client')
     ->group(function(){
+        Route::prefix('dash')
+        ->group(function(){
+            Route::get('/myfly',[ClientController::class,'flyx'])->name('client.fly');
+            Route::get('/mycompagne',[ClientController::class,'compagnie'])->name('client.mycompagne');
+            Route::get('/mynote',[ClientController::class,'note'])->name('client.note');
+        });
 
+
+        Route::prefix('parametre')
+        ->group(function(){
+            Route::get('/myprofile',[ClientController::class,'myprofile'])->name('parametre.profile');
+        });
+
+        Route::prefix('inbox')
+        ->group(function(){
+            Route::get('/sendMessageInAdmin',[ClientController::class,'send'])->name('inbox.send');
+        });
     });
 });

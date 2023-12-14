@@ -7,20 +7,14 @@
         </el-menu-item>
         <div class="flex-grow" />
         <el-sub-menu index="1">
-            <template #title> Agence </template>
+            <template #title> MyFly </template>
             <el-menu-item v-for="(value, index) in agence" :key="index" :index="`1-${index + 1}`">
                 {{ value.value }}
             </el-menu-item>
         </el-sub-menu>
         <el-sub-menu index="4">
-            <template #title> Voyage </template>
+            <template #title> MyProfile </template>
             <el-menu-item v-for="(value, index) in agence" :key="index" :index="`1-${index + 1}`">
-                {{ value.value }}
-            </el-menu-item>
-        </el-sub-menu>
-        <el-sub-menu index="5">
-            <template #title> Sponsor </template>
-            <el-menu-item v-for="(value, index) in sponsor" :key="index" :index="`5-${index + 1}`">
                 {{ value.value }}
             </el-menu-item>
         </el-sub-menu>

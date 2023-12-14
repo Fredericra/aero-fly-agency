@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\web;
 
+use App\Models\Inbox\Mail;
 use App\Models\Admin\Compte;
 use Illuminate\Http\Request;
+use App\Models\Inbox\MessageMail;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -15,9 +17,39 @@ class PageController extends Controller
     {
        
     }
-    public function index()
+    public function index(Request $request)
     {
-        return inertia('Home');
+        if($request->isMethod('get'))
+        {
+            return inertia('Home');
+        }
+        else{
+            if(Mail::where('email',$request->email)->first())
+            {
+                $mail = Mail::where('email',$request->email)->first();
+               $mail->message()->create([
+                "message"=>$request->message
+               ]);
+            }
+            else{
+            $request->validate([
+                "pseudo"=>["required","max:15","min:3"],
+                "email"=>["required","email","unique:mails"],
+            ]);
+            $MailRad = collect(str_split("azertyuiopqsdfghjklmwxcvbn"));
+            $Maj = collect(str_split(strtoupper("azertyuiopqsdfghjklmwxcvbn")) );
+            $logo =collect(str_split("@&"));
+            $password = str_shuffle($MailRad->random(8)->implode('').$Maj->random(4)->implode('').$logo->random(2)->implode('')) ;
+           $message =  Mail::create([
+                "pseudo"=>$request->pseudo,
+                "email"=>$request->email,
+                "password"=>$password
+            ]);
+            $message->message()->create([
+                "message"=>$request->message
+            ]);
+        }
+        }
     }
     public function connexion(Request $request)
     {
@@ -73,7 +105,6 @@ class PageController extends Controller
         else{
             $request->validate([
                 "email"=>"required|email|unique:comptes",
-                "passport"=>["required","integer","min:9","unique:comptes"],
                 "password"=>["required","min:7","max:15",
                 Password::min(8)
                 ->mixedCase()
@@ -83,7 +114,6 @@ class PageController extends Controller
             ]);
             $user = Compte::create([
                 "email"=>$request->email,
-                "passport"=>$request->passport,
                 "password"=>Hash::make($request->password),
                 "admin"=>$this->userAdmin($request->email)
             ]);
@@ -111,5 +141,6 @@ class PageController extends Controller
    {
     return to_route('admin.home');
    }
+  
    
 }

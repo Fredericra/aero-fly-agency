@@ -5,18 +5,13 @@
             <div class="col-span-4"></div>
             <div class="col-span-4"></div>
             <div class="col-span-4">
-                <p class="text-[22px] font-bold text-white " >Parametre de Page</p>/
+                <p class="text-[22px] font-bold text-white " >Parametre de Page</p>
             </div>
         </div>
         <el-tabs :tab-position="tabPosition" style="height: 200px" class="demo-tabs">
-        <el-tab-pane label="Titre de page">
-            <div class="">
-                
-            </div>
-        </el-tab-pane>
-        <el-tab-pane label="Sous Page ">Config</el-tab-pane>
         <el-tab-pane label="Page Pricipate">Role</el-tab-pane>
-        <el-tab-pane label="Autre menu">Task</el-tab-pane>
+        <el-tab-pane label="Titre de page"></el-tab-pane>
+        <el-tab-pane label="Sous Page ">Config</el-tab-pane>
         </el-tabs>
     </div>
     </div>

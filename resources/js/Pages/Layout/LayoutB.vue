@@ -4,11 +4,11 @@
     <div class="">
       <head-web></head-web>
     </div>
-    <div id="corp">
+    <div id="corp" >
         <slot></slot>
     </div>
-    <div id="footer">
-        <foot-web></foot-web>
+    <div id="footer" >
+        <foot-web :mess="affiche"></foot-web>
     </div>
 
   </div>
@@ -21,7 +21,7 @@
   import MenuHome from "../Page/MenuHome.vue"
   import { ref,onMounted,onUnmounted } from 'vue'
 
-
+  const affiche = ref(false)
   const props = defineProps(['path'])
   const activeIndex = ref('1')
   const handleSelect = (key: string, keyPath: string[]) => {
@@ -29,21 +29,25 @@
   }
   function commence()
   {
-    const corp = document.getElementById('corp');
-    if(corp?.clientHeight === 0 && corp.clientHeight < window.innerHeight)
+    const footer = document.getElementById('footer');
+
+    const scroll = window.scrollY;
+    const position = footer?.getBoundingClientRect();
+    console.log(position?.top)
+    if(position?.top >= 500 )
     {
-      corp?.classList.add('h-screen');
+      affiche.value = false
     }
     else{
-      corp?.classList.remove('h-screen');
-      corp?.classList.add('h-auto')
+      affiche.value = true
     }
   }
   onUnmounted(() => {
-    window.addEventListener('click',()=>commence()) 
+    window.addEventListener('scroll',commence)
   })
   onMounted(() => {
-    window.addEventListener('click',()=>commence()) 
+    window.addEventListener('scroll',commence)
+
 
   })
   </script>

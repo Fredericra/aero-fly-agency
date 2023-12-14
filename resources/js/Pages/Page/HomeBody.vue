@@ -51,7 +51,7 @@ const servie = ref([
         </div>
         <div class="media">
             <div class="col-span-5">
-            <div class="flex justify-center items-center opacity-40">
+            <div class="flex justify-center items-center opacity-40" v-if="images.length>3">
                 <img :src="images[2].image" alt="" class=" backdrop-brightness-75 rounded-full">
             
             </div>

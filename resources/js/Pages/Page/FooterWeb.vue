@@ -1,6 +1,9 @@
 <script setup>
 import { ref } from "vue"
  import LogoVue from '../Logo/Logo.vue'
+import FormFooter from "../Web/FormFooter.vue";
+
+const props = defineProps(['mess'])
 const menu = ref([
     {title:"Nos suponsort",sub:[
         {value:"AirMadagascar",route:"",icon:""},
@@ -24,6 +27,7 @@ const menu = ref([
 </script>
 <template>
     <div class="mt-10">
+
         <div class="bg-indigo-200 py-8">
             <div class="media">
                 <div class="col-span-8">
@@ -65,22 +69,7 @@ const menu = ref([
                         <p class="text-center text-[12px] py-4 text-white font-bold">s'inscrire sur notre newsletter </p>
                     </div>
                     <div class="px-20">
-                        <form @submit.prevent class="space-y-4">
-                            <div class="relative">
-                                <input placeholder="votre pseudo" type="text" class="input indent-10">
-                                <i class="fas fa-user-circle text-indigo-900 absolute top-2 left-2 fa-lg"></i>
-                            </div>
-                            <div class="relative">
-                                <input placeholder="votre email" type="text" class="input indent-10">
-                                <i class="fas fa-envelope text-indigo-900 absolute top-2 left-2 fa-lg"></i>
-                            </div>
-                            <div class="relative">
-                                <textarea name="" placeholder="votre message" class="input h-20" id="" cols="30" rows="10"></textarea>
-                            </div>
-                            <div class="">
-                                <button class="btn">s'inscrire <i class="fas fa-envelope"></i></button>
-                            </div>
-                        </form>
+                       <form-footer :value="mess"></form-footer>
                     </div>
                 </div>
             </div>

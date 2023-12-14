@@ -1,28 +1,30 @@
 <template>
     <div class="h-screen">
+        <div class="py-4 text-center">
+            <p class="titre">Email | Inbox</p>
+        </div>
         <div class="px-4 py-4">
-            <div class="media">
-                <div class="col-span-4"></div>
-                <div class="col-span-4"></div>
-                <div class="col-span-4">
-                    <p class="text-[22px] font-bold text-white ">Parametre de Page</p>
-                </div>
-            </div>
             <el-tabs :tab-position="tabPosition" style="height: calc(100vh - 50px)" class="demo-tabs">
-                <el-tab-pane label="Icone Page">
+                <el-tab-pane label="Liste d'email">
+                    <list-email></list-email>
                 </el-tab-pane>
-                <el-tab-pane label="Carouselle">
-                    <carouselle-vue></carouselle-vue>
+                <el-tab-pane label="Message">
+                    <message-mail></message-mail>
                 </el-tab-pane>
-                <el-tab-pane label="Value">Role</el-tab-pane>
-                <el-tab-pane label="Autre menu">Task</el-tab-pane>
+                <el-tab-pane label="Compte">Task</el-tab-pane>
+                <el-tab-pane label="Header"></el-tab-pane>
+                <el-tab-pane label="Footer"></el-tab-pane>
+                <el-tab-pane label="Body d'email"></el-tab-pane>
             </el-tabs>
         </div>
     </div>
 </template>
 <script lang="ts" setup>
 import { ref,reactive } from 'vue'
-import CarouselleVue from '../Web/CarouselleVue.vue';
+import { router } from "@inertiajs/vue3"
+import ListEmail from './ListEmail.vue';
+import MessageMail from './MessageMail.vue';
+
 
 const tabPosition = ref('right')
 </script>

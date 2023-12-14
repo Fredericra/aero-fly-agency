@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Inertia\Middleware;
+use App\Models\Inbox\Mail;
 use App\Models\Admin\Compte;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,7 +46,7 @@ class HandleInertiaRequests extends Middleware
         return $image;
       }
       else{
-        return null;
+        return [];
       }
     }
 
@@ -64,6 +65,8 @@ class HandleInertiaRequests extends Middleware
             'admin'=>fn()=>Auth::check() && auth()->user()->admin?true:false,
             'user'=>fn()=>Auth::check()?auth()->user():null,
             'carouselle'=>$this->image(),
+            'message'=>fn()=>count(Mail::all())?Mail::with('message')->get():[],
+            'tousCompte'=>fn()=>count(Compte::all())>0?Compte::all():[],
         ]);
     }
 }
