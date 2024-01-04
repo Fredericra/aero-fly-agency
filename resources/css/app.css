@@ -49,12 +49,15 @@
         @apply px-4 py-4;
     }
     .link{
-        @apply font-bold duration-1000 text-purple-800 hover:text-indigo-700 ;
+        @apply font-thin duration-1000 text-purple-800 hover:text-indigo-700 ;
     }
 }
 @layer utilities{
     .y{
         scrollbar-width: none;
+    }
+    .y::-webkit-scrollbar{
+        width: none;
     }
     .titre{
         font-weight: 800;

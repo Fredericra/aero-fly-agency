@@ -2,9 +2,12 @@
 
 use App\Http\Controllers\Page\Admin;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\VoleController;
 use App\Http\Controllers\web\PageController;
+use App\Http\Controllers\PageClientController;
 use App\Http\Middleware\Admin\AdminController;
 use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Agency\AgenceController;
 use App\Http\Controllers\Admin\ControllerAdminPage;
 
 Route::middleware(['visite'])->group(function () {
@@ -15,6 +18,8 @@ Route::middleware(['visite'])->group(function () {
     Route::get('/reservation/{pays}/{airport}',[PageController::class,"reservation"])->name('page.reservation');
     Route::get('/dash',[PageController::class,"dash"])->name("dash");
     Route::post('/email',[PageController::class,"email"])->name('page.email');
+    Route::match(['get', 'post'], '/vole/{id} ',[PageController::class,"vole"])->name('page.vole');
+    Route::match(['get','post'],'AllFly',[PageController::class,'flyall'])->name('page.flyall');
     
 });
 
@@ -43,18 +48,23 @@ Route::middleware('authorize')
 
         Route::prefix('dash')
         ->group(function(){ 
-            Route::get("billet",[ControllerAdminPage::class,'billet'])->name('dash.billet');
-            Route::get("Holte",[ControllerAdminPage::class,'hotel'])->name('dash.hotel');
-            Route::get("client",[ControllerAdminPage::class,'client'])->name('dash.client');
-            Route::get("otherAction",[ControllerAdminPage::class,'autre'])->name('dash.other');
+            Route::match(['post','get'],"billet",[ControllerAdminPage::class,'billet'])->name('dash.billet');
+            Route::match(['post','get'],"reservation",[ControllerAdminPage::class,'hotel'])->name('dash.hotel');
+            Route::match(['post','get'],"client",[ControllerAdminPage::class,'client'])->name('dash.client');
+            Route::match(['post','get'],"otherAction",[ControllerAdminPage::class,'autre'])->name('dash.other');
         });
 
         Route::prefix('agence')
         ->group(function(){
             Route::get('/ajouter',[ControllerAdminPage::class,'ajouter'])->name('agence.ajouter');
-            Route::get('/liste',[ControllerAdminPage::class,'liste'])->name('agence.liste');
+            Route::match(['get','post'],'/liste',[AgenceController::class,'liste'])->name('agence.liste');
             Route::get('/Demande',[ControllerAdminPage::class,'Demande'])->name('agence.demande');
             Route::get('/plus',[ControllerAdminPage::class,'plus'])->name('agence.plus');
+        });
+
+
+        Route::prefix('vole')->group(function(){
+            Route::match(['get', 'post'], '/vole_parametre',[VoleController::class,'store'])->name('vole.ajouter');
         });
 
     
@@ -86,7 +96,8 @@ Route::middleware('authorize')
 
         Route::prefix('parametre')
         ->group(function(){
-            Route::get('/myprofile',[ClientController::class,'myprofile'])->name('parametre.profile');
+            Route::match(['get','post'],'/myprofile',[PageClientController::class,'myprofile'])->name('parametre.profile');
+            Route::match(['get', 'post'],'mycompte',[PageClientController::class,'mycompte'])->name('parametre.compte');
         });
 
         Route::prefix('inbox')

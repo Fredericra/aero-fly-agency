@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="text-[10px]">
         <div class="media">
                         <div class="col-span-4 shadow-lg shadow-indigo-950 hover:shadow-purple-950 duration-1000">
                             <div class=" margin">
@@ -8,25 +8,16 @@
                                         <p class="text-white text-[22px]">Ajouter Image Carouselle</p>
                                     </div>
                                     <form action="" class="space-y-4 margin" @submit.prevent="ajouter">
-                                        <div class="relative text-sm">
-                                            <input type="text" class="indent-4 rounded-none input" v-model="form.text" placeholder="description">
-                                            <i class="fas fa-edit fa-sm absolute top-1/4 left-3"></i>
-                                        </div>
-                                        <div class="text-sm">
-                                        <message-vue :message="errors.text"></message-vue>
-                                        </div>
-                                        <div class="relative">
-                                        <textarea v-model="form.description" id="" class="indent-4 rounded-sm h-20 text-sm input" placeholder="description image"></textarea>
-                                        </div>
-                                        <div class="">
-                                            <input type="file" class="text-sm h-9" @input="form.image = $event.target.files[0]" />
-                                            <progress v-if="form.progress" :value="form.progress.percentage" max="100">
-                                                {{ form.progress.percentage }}%
-                                            </progress>
-                                        </div>
-                                        <div class="text-sm">
-                                        <message-vue :message="errors.image"></message-vue>
-                                        </div>
+                                        <form-input text="titre" :erreur="errors.text">
+                                            <input type="text" class="input rounded-none " v-model="form.text" placeholder="description">
+                                        </form-input>
+                                        <form-input text="description" :erreur="errors.description">
+                                            <textarea v-model="form.description" id="" class="indent-4 font-thin rounded-none text-center text-sm input" placeholder="description image"></textarea>
+                                        </form-input>
+                                       <form-input icon="fas fa-image" :erreur="errors.image">
+                                            <input type="file" class=" w-full text-right outline outline-2 outline-gray-600 " @input="form.image = $event.target.files[0]" />
+                                       </form-input>
+            
                                         <div class="text-sm">
                                         <button class="btn">Ajouter</button>
                                         </div>
@@ -69,6 +60,7 @@
 import { ref,reactive,computed } from 'vue'
 import { router,usePage } from "@inertiajs/vue3"
 import MessageVue from "../component/Message.vue"
+import FormInput from "../component/FormInput.vue"
 
 const page = usePage()
 const errors = computed(()=>{

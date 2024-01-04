@@ -1,5 +1,12 @@
 <template>
-    <div class="text-sm">
+    <div class="text-[10px]">
+    <div class="flex justify-end items-center py-8">
+            <div class="flex space-x-2">
+                <button class="btn space-x-3 bg-fuchsia-400">Export <i class="fas fa-file-excel"></i></button>
+                <button class="btn space-x-3 bg-orange-500">import  <i class="fas fa-database"></i></button>
+                <button class="btn space-x-3">Export <i class="fab fa-mixcloud"></i></button>
+            </div>
+        </div>
         <div class="grid grid-cols-12 border-b-2 border-white">
             <div class="col-span-1  bg-blue-400 py-2 font-bold text-white">
                 <p class="text-center">Index </p>
@@ -71,15 +78,17 @@ import { computed,ref } from "vue"
 
 const ajouter = (mail)=>{
     router.post(route('parametre.admin'),{
-        value:mail,
-        admin:1
+        mail:mail,
+        admin:true,
+        adminValue:1
     });
 }
 
 const annuler = (mail)=>{
     router.post(route('parametre.admin'),{
-        value:mail,
-        admin:0
+        mail:mail,
+        admin:true,
+        adminValue:0
     });
 }
 const page = usePage()

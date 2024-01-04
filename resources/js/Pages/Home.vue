@@ -22,7 +22,7 @@ const images = computed(() => {
                         <img :src="value.image" alt="" class="h-[400px] w-full object-cover">
                         <div class="absolute bottom-1/2 left-3/4">
                             <div class="text-center">
-                                <p class="text-[20px] titre">{{ value.text }} </p>
+                                <p class="text-[20px]  titre" >{{ value.text }} </p>
                             </div>
                         </div>
                     </div>

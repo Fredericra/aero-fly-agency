@@ -33,7 +33,6 @@
 
     const scroll = window.scrollY;
     const position = footer?.getBoundingClientRect();
-    console.log(position?.top)
     if(position?.top >= 500 )
     {
       affiche.value = false

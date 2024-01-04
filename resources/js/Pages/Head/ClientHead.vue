@@ -7,13 +7,13 @@
         </el-menu-item>
         <div class="flex-grow" />
         <el-sub-menu index="1">
-            <template #title> MyFly </template>
+            <template #title> MonFly </template>
             <el-menu-item v-for="(value, index) in agence" :key="index" :index="`1-${index + 1}`">
                 {{ value.value }}
             </el-menu-item>
         </el-sub-menu>
         <el-sub-menu index="4">
-            <template #title> MyProfile </template>
+            <template #title> MonProfile </template>
             <el-menu-item v-for="(value, index) in agence" :key="index" :index="`1-${index + 1}`">
                 {{ value.value }}
             </el-menu-item>
@@ -52,16 +52,11 @@ const ShareData = computed(()=>{
 const user = computed(()=>{
     return page.props.user;
 })
-const agence = ref([
-    { value: "Madagasikara", route: "" },
-    { value: "France", route: "" },
-    { value: "Espagne", route: "" },
-    { value: "Chine", route: "" },
-]);
+
 const admin = ref([
     { value: "Sortie", route: "admin.sortie", api: ShareData.user ? ShareData : null },
-    { value: "parametre", route: "admin.sortie", api: ShareData.user ? ShareData : null },
-    { value: "Admin", route: "admin.sortie", api: ShareData.user ? ShareData : null },
+    { value: "parametre", route: "parametre.profile", api: ShareData.user ? ShareData : null },
+    
 ]);
 const param = ref([
     { value: "Contribution", route: "" },

@@ -17,6 +17,7 @@
     "dependencies": {
         "@inertiajs/vue3": "^1.0.13",
         "element-plus": "^2.4.1",
-        "fontawesome-free": "^1.0.4"
+        "fontawesome-free": "^1.0.4",
+        "sweetalert2": "^11.10.1"
     }
 }

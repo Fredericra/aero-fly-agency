@@ -2,6 +2,8 @@
 import { router,usePage } from "@inertiajs/vue3"
 import { reactive,computed,ref } from "vue";
 import MessageVue from "../component/Message.vue";
+import FormInput from "../component/FormInput.vue";
+
 const eye = ref(false)
 const eye1=ref(false)
 const page = usePage()
@@ -21,54 +23,31 @@ const inscrire = ()=>{
 </script>
 <template>
   <div>
-    <form @submit.prevent="inscrire">
-      <div class="space-y-4">
-        <div class="relative transition-all duration-1000">
-          <input type="text" class="input" placeholder="email" v-model="form.email" />
-          <i class="fas fa-envelope absolute left-4 top-1/2 fa-lg text-gray-400 icon"></i>
-        </div>
-        <message-vue :message="errors.email"></message-vue>
-        <div class="relative">
-          <input
-            :type="eye ? 'text' : 'password'"
-            class="input"
-            placeholder="mots de pass"
-            v-model="form.password"
-          />
-          <i class="fas fa-lock absolute left-4 top-1/2 fa-lg text-gray-400 icon"></i>
-          <i
-            :class="eye ? 'fa-eye' : 'fa-eye-slash'"
-            class="fas duration-1000 fa-x absolute right-4 top-3 cursor-pointer text-gray-400 icon"
-            @click="eye = !eye"
-          ></i>
-        </div>
-        <message-vue :message="errors.password"></message-vue>
-        <div class="relative">
-          <input
-            :type="eye1 ? 'text' : 'password'"
-            class="input"
-            placeholder="confirmation"
-            v-model="form.confirm"
-          />
-          <i class="fas fa-keyboard absolute left-4 top-1/2 fa-lg text-gray-400 icon"></i>
-          <i
-            :class="eye1 ? 'fa-eye' : 'fa-eye-slash'"
-            class="fas duration-1000 fa-x absolute right-4 top-3 cursor-pointer text-gray-400 icon"
-            @click="eye1 = !eye1"
-          ></i>
-        </div>
-        <message-vue :message="errors.confirm"></message-vue>
-        <div class="px-5">
-          <label for="">
-            <input type="checkbox" v-model="form.check" />
-            <span class="">j'accepte le</span>
-            <Link>contrat</Link>
-          </label>
-        </div>
+    <form @submit.prevent="inscrire" class="space-y-3">
+      <form-input icon="fas fa-envelope" :erreur="errors.email">
+        <input type="text" class="input font-thin text-center text-sm rounded-md" v-model="form.email">
+      </form-input>
+      <form-input icon="fas fa-lock" :erreur="errors.password" :password="true">
+        <template v-slot="{pass}">
+          <input :type="pass?'text':'password'" v-model="form.password" class="font-thin input text-center text-sm rounded-md">
+        </template>
+      </form-input>
+      <form-input icon="fas fa-lock" :erreur="errors.password" :password="true">
+        <template v-slot="{pass}">
+          <input :type="pass?'text':'password'" v-model="form.confirm" class="font-thin input text-center text-sm rounded-md">
+        </template>
+      </form-input>
+      <div class="">
+        <lable class="font-thin">
+          <input type="checkbox"> j'accepter tous les <Link class="font-thin">contrat</Link>
+        </lable>
+      </div>
         <div class="px-4">
           <button class="btn">Inscrire <i class="fas fa-user-plus"></i></button>
         </div>
-      </div>
+        <div class="flex justify-end items-center py-4">
+          <p class="font-thin text-blue-400">j'ai une compte, je me <Link class="link" :href="route('page.connexion')">connecte</Link></p>
+        </div>
     </form>
   </div>
 </template>

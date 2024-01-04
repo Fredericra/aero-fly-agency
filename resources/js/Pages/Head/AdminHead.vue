@@ -9,7 +9,7 @@
         <el-sub-menu index="6">
             <template #title> reservation </template>
             <div class="" v-for="(value, index) in reservation" :key="index">
-                <Link class="link" :href="route(value.route)">
+                <Link  :href="route(value.route)">
                     <el-menu-item  :index="`6-${index + 1}`">
                         {{ value.value }}
                     </el-menu-item>
@@ -17,9 +17,9 @@
             </div>
         </el-sub-menu>
         <el-sub-menu index="1">
-            <template #title> Agence </template>
+            <template #title> Compagnie </template>
             <div class="" v-for="(value, index) in agence" :key="index">
-                <Link class="link" :href="route(value.route)">
+                <Link :href="route(value.route)">
                         <el-menu-item  :index="`1-${index + 1}`">
                             {{ value.value }}
                         </el-menu-item>
@@ -37,7 +37,7 @@
         <el-sub-menu index="5">
             <template #title> Inbox </template>
             <div class=""  v-for="(value, index) in inbox" :key="index">
-                <Link :href="route(value.route)" class="link">
+                <Link :href="route(value.route)" >
                 <el-menu-item  :index="`5-${index + 1}`">
                     {{ value.value }}
                 </el-menu-item>
@@ -50,7 +50,7 @@
         </el-menu-item>
         <el-sub-menu index="3">
             <template #title>
-                <div class="text-blue-400 font-bold">Parametre</div>
+                <div >Parametre</div>
             </template>
             <div class="" v-for="(value, index) in admin" :key="index">
                 <Link :href="route(value.route, value.api)">
@@ -81,16 +81,15 @@ const ShareData = computed(() => {
 })
 const reservation = ref([
     { value: "Billet d'avion", route: "dash.billet" },
-    { value: "Hotel", route: "dash.hotel" },
+    { value: "Reservation", route: "dash.hotel" },
     { value: "Client", route: "dash.client" },
     { value: "Autre action", route: "dash.other" },
 
 ])
 const agence = ref([
-    { value: "Liste", route: "agence.liste" },
-    { value: "Ajouter", route: "agence.ajouter" },
-    { value: "Démande", route: "agence.demande" },
-    { value: "Plus", route: "agence.plus" },
+    { value: "Compagnie", route: "agence.liste" },
+    { value: "Vole", route: "vole.ajouter" },
+    
 ]);
 const donne = ref([
     { value: "Page", route: 'admin.page' },
@@ -99,7 +98,6 @@ const donne = ref([
 const admin = ref([
     { value: "Sortie", route: "admin.sortie", api: ShareData },
     { value: "parametre", route: "parametre.admin", api: ""},
-    { value: "Admin", route: "parametre.profil", api:"" },
 ]);
 const param = ref([
     { value: "Collaboration", route: "" },
@@ -107,11 +105,10 @@ const param = ref([
     { value: "Notre supposort", route: "" },
 ]);
 const inbox = ref([
-    { value: "Message", route: "mail.mail" },
+    { value: "Email", route: "mail.mail" },
     { value: "Campagne", route: "mail.campagne" },
-    { value: "Parametre", route: "mail.setting" },
-    { value: "Ajouter", route: "mail.ajoute" },
-    { value: "Compte", route: "mail.compte" },
+   
+   
 ])
 const activeIndex = ref("1");
 const handleSelect = (key: string, keyPath: string[]) => {

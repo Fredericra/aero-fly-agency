@@ -48,6 +48,7 @@ const props = defineProps(['errors','carouselle'])
 const form = reactive({
     image:null,
     text:null,
-    description:null
+    description:null,
+    post:1
 })
 </script>

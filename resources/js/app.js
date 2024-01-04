@@ -7,6 +7,7 @@ import { Link } from '@inertiajs/vue3'
 import ElementPlus from 'element-plus'
 import MainLayout from './Pages/Layout/MainLayout.vue'
 import 'element-plus/dist/index.css'
+import Swal from 'sweetalert2'
 createInertiaApp({
   resolve: name => {
     const pages = import.meta.glob('./Pages/**/*.vue', { eager: true })

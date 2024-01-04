@@ -8,9 +8,26 @@
                 <div class="text-center">
                     <p class="font-bold text-[18px] ">Listé de companie sur <span class="underline">{{ pays }} </span></p>
                 </div>
-                <div class="py-1  margin">
-                    <div class="margin" v-for="i in 4" :key="i">
-                        <p class="btn">AIR MADAGASCAR</p>
+                <div class="py-4  margin">
+                    <div class="" v-if="agence.length>0">
+                        <div class="space-y-2">
+                            <div class=" shadow-lg px-2 py-2" v-for="(value,index) in agence" :key="index">
+                                <div class="grid grid-cols-2">
+                                    <div class="col-span-2">
+                                        <div class="text-center font-bold">{{ value.nom }} </div>
+                                    </div>
+                                    <div class="col-span-1 flex justify-cener items-center text-sm">
+                                    <a href="" class="link">{{ value.web }} </a>
+                                    </div>
+                                    <div class="col-span-1">
+                                        <img :src="value.image" alt="" class="h-full px-4 py-2 rounded-full shadow-lg shadow-indigo-950 w-full objet-contain">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="margin" v-else>
+                        <p class="btn">Aucun Disponible</p>
                     </div>
                 </div>
                 <div class="py-5 px-5">
@@ -54,33 +71,18 @@
             <div class="col-span-4">
                 <div class="mt-20 margin">
                     <div class="text-center">
-                        <p class="titre">Départ</p>
+                        <p class="titre">Réservation du vole</p>
                     </div>
                     <div class="py-4 space-y-3">
                         <div class="shadow-lg py-4 px-4">
                             <div class="flex justify-between">
-                                <div class="">
-                                    <p class="font-bold">Air MADAGASCAR</p>
-                                </div>
-                                <div class="">
-                                    <p class="font-bold">
-                                        Boing 952
-                                    </p>
-                                </div>
+                               
                             </div>
                             <div class="">
-                                <p class=" indent-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit
-                                    molestias pariatur hic!</p>
+                                <p class=" indent-3">Pour accéder cette service veuillez vous conneté !!</p>
                             </div>
                             <div class="">
-                                <div class="flex justify-end py-4 items-center space-x-4 font-bold">
-                                    <span class="underline">Départ</span>
-                                    <span class="">{{ vole[0].city }} </span>
-                                </div>
-                                <div class="flex justify-start py-4 items-center space-x-4 font-bold">
-                                    <span class="underline">Arrivé</span>
-                                    <span class="">?? </span>
-                                </div>
+                                
                                 <div class=" items-center py-10">
                                     <div class="w-full" v-if="!donne.auth">
                                         <el-button class="primary" text @click="dialogFormVisible = true">
@@ -194,8 +196,15 @@ const page = usePage();
 const donne = computed(() => {
     return page.props;
 })
+
 const props = defineProps(['pays', 'airport', 'errors'])
+const agence = computed(()=>{
+    const compagnie = page.props.compagnie;
+    const pays = page.props.pays;
+    return compagnie.filter(item=>item.pays===pays)
+})
 const vole = computed(() => {
+    
     const value = page.props.airport
     return Airport.filter(item => item.name === value);
 })

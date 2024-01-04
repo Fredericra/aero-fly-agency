@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\web;
 
+use App\Models\Vole\Vole;
 use App\Models\Inbox\Mail;
 use App\Models\Admin\Compte;
 use Illuminate\Http\Request;
@@ -9,11 +10,13 @@ use App\Models\Inbox\MessageMail;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Reservation\RestBillet;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
 
 class PageController extends Controller
 {
-    public function __construct(private $admin = [])
+    public function __construct(private $admin = [],public $rest = null,public $restVip=null,public $restClass=null,public $confirmed = false)
     {
        
     }
@@ -141,6 +144,107 @@ class PageController extends Controller
    {
     return to_route('admin.home');
    }
-  
+  public function vole(Request $request,$id)
+  {
+    if($request->isMethod('get'))
+    {
+        $VoleSelect = Vole::where("id",$id)->with(['compagnie','avion','vole'])->get();
+        $VoleSelect->each(function($value){
+            $value->compagnie->image = Storage::url($value->compagnie->image);
+            $value->avion->image = Storage::url($value->avion->image);
+        });
+        return inertia('Page/VoleActive',[
+            "VoleActive"=>$VoleSelect
+        ]);
+    }
+    else{
+        if($request->billet)
+        {
+            if(count($request->vip)>0)
+            {
+                $this->rest = $request->nombre - 1;
+                if($request->modeVip)
+                {
+                    $placeVip = $request->vip;
+                   $this->restVip = $placeVip['placeVIP'] - 1;
+                $this->restClass = $placeVip['place'];
+                }
+                else{
+                    $placeVip = $request->vip;
+                    $this->restVip = $placeVip['placeVIP'];
+                    $this->restClass =$placeVip['placeVIP']>0? $placeVip['place']-1: $request->nombre - 1;
+                }
+            }
+            else {
+                $this->rest = $request->nombre - 1;
+                $this->restVip = 0;
+                $this->restClass = $request->nombre - 1;
+                
+            }
+            $request->validate([
+                "pays"=>"required",
+                "passport"=>"required",
+                "payment"=>"required",
+                "compte"=>"required",
+            ]);
+            $vole = Vole::find($id);
+            $vole->billet()->create([
+                "compte_id"=>$request->id,
+                "pays"=>$request->pays,
+                "passport"=>$request->passport,
+            ]);
+            if($request->nombre===0)
+            {
+                $this->confirmed = true;
+            }
+           
+            if(RestBillet::where('vole_id',$id)->first())
+            {
+                $billet = RestBillet::where('vole_id',$id)->first();
+                if($request->vipMode)
+                {
+                    RestBillet::where('vole_id',$id)->update([
+                        "VipRest"=>$billet->VipRest - 1,
+                        "ClassRest"=>$billet->ClassRest,
+                        "totalRest"=>$Billet->totalRest - 1,
+                        "stop"=>$this->confirmed
+                    ]);
+
+                }
+                else{
+                    RestBillet::where('vole_id',$id)->update([
+                        "VipRest"=>$billet->VipRest,
+                        "ClassRest"=>$billet->ClassRest - 1,
+                        "totalRest"=>$billet->totalRest - 1,
+                        "stop"=>$this->confirmed
+                    ]);
+                }
+            }
+            if(!RestBillet::where('vole_id',$id)->first()) {
+                $vole->RestCard()->create([
+                    "VipRest"=>$this->restVip,
+                    "ClassRest"=>$this->restClass,
+                    "totalRest"=>$this->rest,
+                    "stop"=>$this->confirmed
+                ]);
+
+            }
+
+        }
+    }
+    $this->rest = 0;
+    $this->restVip = 0;
+    $this->restClass = 0;
+  }
+  public function flyall(Request $request)
+  {
+    if($request->isMethod('get'))
+    {
+        return inertia('Page/VoleListe');
+    }
+    else{
+        
+    }
+  }
    
 }

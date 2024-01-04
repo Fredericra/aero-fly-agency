@@ -1,58 +1,56 @@
 <script lang="ts" setup>
-    import { reactive,ref,computed } from "vue";
-import { router,usePage } from "@inertiajs/vue3";
+import { reactive, ref, computed } from "vue";
+import { router, usePage } from "@inertiajs/vue3";
+import FormInput from "../component/FormInput.vue";
 import MessageVue from "../component/Message.vue";
 
 const page = usePage()
-const donne = computed(()=>{
+const donne = computed(() => {
     return page.props
 })
-const props = defineProps(['errors'])
-    const form = reactive({
-        email:null,
-        password:null
-    });
-    const connexion = ()=>{
-        router.post(route('page.connexion'),form)
-    }
-    const eye = ref(false)
+
+const props = defineProps(['show'])
+const form = reactive({
+    email: null,
+    password: null
+});
+const errors = computed(()=>{
+    return page.props.errors;
+})
+const connexion = () => {
+    router.post(route('page.connexion'), form)
+}
+const eye = ref(false)
 </script>
 <template >
     <div>
-        <form @submit.prevent="connexion">
-                                    <div class="space-y-4">
-                                        <div class="relative">
-                                            <input type="text"
-                                                class="input"
-                                                placeholder="email"
-                                                v-model="form.email" />
-                                            <i
-                                                class="fas fa-envelope absolute left-4 top-1/4 fa-lg  text-gray-400 icon"></i>
-                                        </div>
-                                        <message-vue :message="errors.email"></message-vue>
-                                        <div class="relative">
-                                            <input :type="eye?'text':'password'"
-                                                class="input"
-                                                placeholder="mots de pass"
-                                                v-model="form.password" />
-                                            <i
-                                                class="fas fa-lock absolute left-4 top-1/4 fa-lg  text-gray-400 icon"></i>
-                                                <i :class="eye?'fa-eye':'fa-eye-slash'" class="fas duration-1000 fa-x absolute right-4 top-3 cursor-pointer text-gray-400 icon" @click="eye=!eye"></i>
+        <form @submit.prevent="connexion" class="space-y-4">
+            <form-input icon="fas fa-envelope" :erreur="errors.email">
+                <input type="text" class="input font-thin text-center rounded-md" placeholder="email"
+                    v-model="form.email" />
+            </form-input>
+            <form-input icon="fas fa-lock" :password="true" :erreur="errors.password">
+                <template v-slot="{pass}">
+                    <input :type="pass?'text':'password'" v-model="form.password" class="input font-thin text-sm text-center" >
+                </template>
+            </form-input>
+            <div class="space-y-4">
 
-                                        </div>
-                                        <message-vue :message="errors.password"></message-vue>
-                                       
-                                        <div class="px-5">
-                                            <label for="">
-                                                <input type="checkbox"> <span class="">souvient </span> <Link class=" text-stone-800 font-bold">moi</Link>
-                                            </label>
-                                        </div>
-                                        <div class="px-4">
-                                            <button class="btn">
-                                                connexion <i class="fas fa-user-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
+                <div class="px-5">
+                    <label for="">
+                        <input type="checkbox"> <span class="">souvient </span>
+                        <Link class=" text-stone-800 font-bold">moi</Link>
+                    </label>
+                </div>
+                <div class="px-4">
+                    <button class="text-sm btn" type="submit">
+                        connexion <i class="fas fa-user-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="flex justify-end items-center py-4">
+          <p class="font-thin text-blue-400">je n'ai pas  compte, je m'<Link class="link" :href="route('page.inscrire')">inscrire</Link></p>
+        </div>
+        </form>
     </div>
 </template>
